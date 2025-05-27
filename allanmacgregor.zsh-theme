@@ -161,21 +161,21 @@ prompt_git_status() {
   precmd_update_git_vars
   if [ -n "$__CURRENT_GIT_STATUS" ]; then
     # Show the git Icon indicator
-    prompt_segment white black "${icons[VCS_GIT_ICON]}"
+    prompt_segment 255 black "${icons[VCS_GIT_ICON]}"
     if [ "$GIT_CHANGED" -ne "0" ]; then
-      prompt_segment black yellow "${icons[VCS_CHANGED_ICON]} $GIT_CHANGED"
+      prompt_segment yellow 255 "${icons[VCS_CHANGED_ICON]} $GIT_CHANGED"
     fi
     if [ "$GIT_AHEAD" -ne "0" ]; then
-      prompt_segment black 025 "${icons[VCS_OUTGOING_CHANGES_ICON]}$GIT_AHEAD"
+      prompt_segment 027 255 "${icons[VCS_OUTGOING_CHANGES_ICON]}$GIT_AHEAD"
     fi
     if [ "$GIT_BEHIND" -ne "0" ]; then
-      prompt_segment black 016 "${icons[VCS_INCOMING_CHANGES_ICON]}$GIT_BEHIND"
+      prompt_segment magenta 255 "${icons[VCS_INCOMING_CHANGES_ICON]}$GIT_BEHIND"
     fi
     if [ "$GIT_STAGED" -ne "0" ]; then
-      prompt_segment black green "${icons[VCS_STAGED_ICON]} $GIT_STAGED"
+      prompt_segment green 255 "${icons[VCS_STAGED_ICON]} $GIT_STAGED"
     fi
     if [ "$GIT_UNTRACKED" -ne "0" ]; then
-      prompt_segment black red "${icons[VCS_UNTRACKED_ICON]} $GIT_UNTRACKED"
+      prompt_segment 009 255 "${icons[VCS_UNTRACKED_ICON]} $GIT_UNTRACKED"
     fi
   fi
 }
@@ -227,6 +227,33 @@ prompt_virtualenv() {
   if [[ -n $virtualenv_path && -n $VIRTUAL_ENV_DISABLE_PROMPT ]]; then
     prompt_segment blue black "(`basename $virtualenv_path`)"
   fi
+}
+
+# Virtualenv: current working virtualenv
+prompt_pyenv() {
+ if [ -f "$PWD/.python-version" ]; then
+   prompt_segment 098 white "`echo ${icons[ELIXIR_ICON]} $version_pyenv test`"
+ fi
+}
+
+prompt_elixir() {
+ if [ -f "$PWD/mix.exs" ]; then
+   prompt_segment 098 white "`echo ${icons[ELIXIR_ICON]} $ELIXIR_VERSION`"
+ fi
+}
+
+# Status:
+# - was there an error
+# - am I root
+# - are there background jobs?
+prompt_status() {
+  local symbols
+  symbols=()
+  [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}✘"
+  [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}⚡"
+  [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}⚙"
+
+  [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
 }
 
 prompt_elixir() {

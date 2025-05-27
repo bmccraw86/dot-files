@@ -22,7 +22,7 @@ HIST_STAMPS="mm/dd/yyyy"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(brew git mix git-flow composer sudo docker)
+plugins=(gpg-agent brew pyenv git mix git-flow composer sudo docker wakatime)
 
 ##########################################
 # Load External configurationf files
@@ -52,10 +52,24 @@ if [ -e ~/.zsh_files/aliases.zsh ]; then
      source ~/.zsh_files/aliases.zsh
 fi 
 
+# Load the TinyCareTerminal file
+if [ -e ~/.zsh_files/tct.zsh ]; then
+     source ~/.zsh_files/tct.zsh
+fi 
+
 # Load the Functions file
 if [ -e ~/.zsh_files/functions.zsh ]; then
      source ~/.zsh_files/functions.zsh
 fi 
+
+# Add the following to your shell init to set up gpg-agent automatically for every shell
+#if [ -f ~/.gnupg/.gpg-agent-info ] && [ -n "$(pgrep gpg-agent)" ]; then
+#    source ~/.gnupg/.gpg-agent-info
+#    export GPG_AGENT_INFO
+#else
+#    eval $(gpg-agent --daemon  ~/.gnupg/.gpg-agent-info)
+#fi
+
 
 # Load the Powerline Bindings
 #if [ -e $POWERLINE_PATH/powerline/bindings/zsh/powerline.zsh ]; then
@@ -81,6 +95,12 @@ ELIXIR_VERSION=$(elixir -v | grep -o 'Elixir \d.\d.\d' | grep -o '\d.\d.\d')
 # Tmuxifier Autocomplete
 eval "$(tmuxifier init -)"
 
+# Requierd for gpg support on commits
+export GPG_TTY="$(tty)"
+
+# PHPBrew support 
+source /Users/amacgregor/.phpbrew/bashrc
+
 ##########################################
 # Experimental  
 ##########################################
@@ -89,9 +109,23 @@ eval "$(tmuxifier init -)"
 #. /home/amacgregor/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 # Motivation reminder
-echo "2017 12 31" | awk '{dt=mktime($0 " 00 00 00")-systime(); print "There are " int(dt/86400/7) " weeks left until the year ends. What will you do?";}'
+echo "2019 12 31" | awk '{dt=mktime($0 " 00 00 00")-systime(); print "There are " int(dt/86400/7) " weeks left until the year ends. What will you do?";}'
 
 # Run Fortune on a new terminal
 #fortune quotes 
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# begin gotodir completion
+. <(gotodir --completion)
+# end gotodir completion
+
+# begin gotodir completion
+. <(gotodir --completion)
+# end gotodir completion
+
+. $HOME/.asdf/asdf.sh
+
+. $HOME/.asdf/completions/asdf.bash

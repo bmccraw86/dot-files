@@ -16,6 +16,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " Utility
+Plugin 'wakatime/vim-wakatime'
 Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
 Plugin 'ervandew/supertab'
@@ -31,6 +32,9 @@ Plugin 'jeetsukumaran/vim-buffergator'
 Plugin 'gilsondev/searchtasks.vim'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'tpope/vim-dispatch'
+Plugin 'jceb/vim-orgmode'
+Plugin 'tpope/vim-speeddating'
+Plugin 'calorie/vim-typing-sound'
 
 " Generic Programming Support 
 Plugin 'jakedouglas/exuberant-ctags'
@@ -56,7 +60,7 @@ Plugin 'tpope/vim-fugitive'
 "Plugin 'jaxbot/github-issues.vim'
 
 " PHP Support
-Plugin 'phpvim/phpcd.vim'
+"Plugin 'phpvim/phpcd.vim'
 Plugin 'tobyS/pdv'
 
 " Erlang Support
@@ -75,6 +79,7 @@ Plugin 'frost/vim-eh-docs'
 Plugin 'slashmili/alchemist.vim'
 Plugin 'tpope/vim-endwise'
 Plugin 'jadercorrea/elixir_generator.vim'
+Plugin 'mhinz/vim-mix-format'
 
 " Elm Support
 Plugin 'lambdatoast/elm.vim'
@@ -100,6 +105,10 @@ Plugin 'effkay/argonaut.vim'
 Plugin 'ajh17/Spacegray.vim'
 Plugin 'atelierbram/Base2Tone-vim'
 Plugin 'colepeters/spacemacs-theme.vim'
+Plugin 'dylanaraps/wal.vim'
+Plugin 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
+
+" Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -128,6 +137,10 @@ set laststatus=2
 " Enable Elite mode, No ARRRROWWS!!!!
 let g:elite_mode=1
 
+" Devicons configuration 
+let g:webdevicons_conceal_nerdtree_brackets = 1
+let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
+
 " Enable highlighting of the current line
 set cursorline
 
@@ -139,9 +152,14 @@ set t_Co=256
 "   set termguicolors
 " endif
 
-let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme spacegray
- 
+let g:vim_typing_sound = 0                  " sound off
+let g:vim_typing_sound_command = 'afplay' " or 'afplay'
+let g:vim_typing_sound_path = '/Volumes/Workspace/Utilities/Sound/9744__horn__typewriter.wav'            " set your sound path
+
+"let base16colorspace=256  " Access colors present in 256 colorspace
+colorscheme challenger_deep
+let g:challenger_deep_termcolors = 256
+
 let g:spacegray_underline_search = 1
 let g:spacegray_italicize_comments = 1
 
@@ -232,6 +250,9 @@ endfunction
 
 " Close popup by <Space>.
 "inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" vim-mix-format
+" let g:mix_format_on_save = 1
 
 " AutoComplPop like behavior.
 "let g:neocomplete#enable_auto_select = 1
